@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+
 	"github.com/shopspring/decimal"
 )
 
@@ -51,7 +52,7 @@ func main() {
 	checkErr(decodeErr)
 
 	if envelop.ResultCode != "OK" {
-		log.Fatal("Не удалось загрузиться: ", envelop.ResultCode)
+		log.Fatal("Could not load: ", envelop.ResultCode)
 	}
 
 	payload := envelop.Payload
@@ -63,17 +64,15 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("%s | %s%s %v %v\n",
+		fmt.Printf("%s | %-8s %8s |%8s\n",
 			actualAt.Format("15:04:05"),
-			rate.FromCurrency.Name,
-			rate.ToCurrency.Name,
+			rate.FromCurrency.Name+rate.ToCurrency.Name,
 			rate.Buy.StringFixed(2),
 			rate.Sell.StringFixed(2))
 	}
-	fmt.Println("\nНажмите enter, чтобы выйти........")
+	fmt.Println("\nPress any key to exit")
 
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
-
 }
 
 func checkErr(err error) {
